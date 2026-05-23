@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Style Atelier</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#f7f5f0; --surface:#fff; --surface2:#f2efe9;
+  --border:rgba(50,40,30,.08); --border-mid:rgba(50,40,30,.15);
+  --text:#1e1a16; --text2:#5c5248; --text3:#9e9488;
+  --accent:#b8956a; --accent-p:#f5ede0; --accent-l:#e8d5bb;
+  --rose:#c9848a; --rose-p:#f7eced;
+  --sage:#7a9e8a; --sage-p:#eaf2ec;
+  --slate:#7a8fa0; --slate-p:#eaf0f5;
+  --r:14px; --r-sm:8px;
+  --shadow:0 2px 16px rgba(50,40,30,.07);
+  --nav-h:58px; --bottom-h:64px;
+}
+*, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+body { font-family:'Jost',sans-serif; background:var(--bg); color:var(--text); font-weight:300; }
+
+/* ── HEADER (desktop) ── */
+header {
+  background:var(--surface); border-bottom:1px solid var(--border);
+  position:sticky; top:0; z-index:200;
+  display:flex; align-items:center; padding:0 36px; height:var(--nav-h); gap:32px;
+}
+.logo { font-family:'Cormorant Garamond',serif; font-size:21px; font-weight:400; font-style:italic; white-space:nowrap; }
+.logo em { color:var(--accent); font-style:normal; }
+nav { display:flex; gap:2px; flex:1; }
+nav button { font-family:'Jost',sans-serif; font-size:13px; background:none; border:none; padding:7px 15px; border-radius:100px; color:var(--text3); cursor:pointer; transition:all .15s; white-space:nowrap; }
+nav button:hover { color:var(--text); background:var(--surface2); }
+nav button.active { background:var(--text); color:#fff; }
+.api-status { margin-left:auto; font-size:12px; color:var(--text3); cursor:pointer; border:1px solid var(--border-mid); padding:5px 12px; border-radius:100px; background:none; white-space:nowrap; transition:all .15s; flex-shrink:0; }
+.api-status:hover { border-color:var(--accent); color:var(--accent); }
+.api-status.ok { border-color:var(--sage); color:var(--sage); }
+
+/* ── BOTTOM NAV (mobile) ── */
+.bottom-nav {
+  display:none; position:fixed; bottom:0; left:0; right:0;
+  height:var(--bottom-h); background:var(--surface);
+  border-top:1px solid var(--border); z-index:200;
+  align-items:stretch;
+}
+.bn-btn {
+  flex:1; display:flex; flex-direction:column; align-items:center;
+  justify-content:center; gap:3px; background:none; border:none;
+  cursor:pointer; color:var(--text3); font-family:'Jost',sans-serif;
+  font-size:10px; font-weight:400; letter-spacing:.3px; transition:color .15s;
+  padding-bottom:env(safe-area-inset-bottom);
+}
+.bn-btn .bn-icon { font-size:20px; line-height:1; }
+.bn-btn.active { color:var(--accent); }
+
+/* ── MAIN ── */
+main { max-width:1080px; margin:0 auto; padding:32px 28px 80px; }
+.page { display:none; animation:fi .2s ease; }
+.page.active { display:block; }
+@keyframes fi { from{opacity:0;transform:translateY(5px)} to{opacity:1;transform:none} }
+.ph { margin-bottom:24px; }
+.ph-title { font-family:'Cormorant Garamond',serif; font-size:32px; font-weight:400; line-height:1.15; margin-bottom:4px; }
+.ph-sub { font-size:13px; color:var(--text3); }
+.ph-row { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; }
+
+/* ── BUTTONS ── */
+.btn { font-family:'Jost',sans-serif; font-size:13px; border-radius:100px; cursor:pointer; transition:all .15s; padding:9px 20px; }
+.btn-primary { background:var(--text); color:#fff; border:none; }
+.btn-primary:hover { opacity:.8; }
+.btn-primary:disabled { opacity:.35; cursor:not-allowed; }
+.btn-outline { background:none; color:var(--text2); border:1px solid var(--border-mid); }
+.btn-outline:hover { border-color:var(--text); color:var(--text); }
+.btn-sm { padding:7px 14px; font-size:12px; }
+
+/* ── FORM ── */
+.form-group { margin-bottom:14px; }
+.form-label { font-size:11px; font-weight:500; letter-spacing:.6px; color:var(--text2); margin-bottom:5px; display:block; text-transform:uppercase; }
+.form-input, .form-select, .form-textarea { width:100%; font-family:'Jost',sans-serif; font-size:13px; font-weight:300; border:1px solid var(--border-mid); border-radius:var(--r-sm); padding:9px 13px; background:var(--bg); color:var(--text); outline:none; transition:border-color .15s; }
+.form-input:focus, .form-select:focus, .form-textarea:focus { border-color:var(--accent); }
+.form-textarea { resize:vertical; min-height:72px; }
+.form-select { appearance:none; cursor:pointer; }
+
+/* ── MODAL ── */
+.overlay { position:fixed; inset:0; background:rgba(20,16,12,.42); z-index:500; display:none; align-items:flex-end; justify-content:center; padding:0; }
+.overlay.open { display:flex; }
+.modal { background:var(--surface); border-radius:var(--r) var(--r) 0 0; padding:24px 24px 32px; width:100%; max-height:92vh; overflow-y:auto; }
+.modal-handle { width:36px; height:4px; background:var(--border-mid); border-radius:2px; margin:0 auto 20px; }
+.modal-title { font-family:'Cormorant Garamond',serif; font-size:22px; font-weight:400; margin-bottom:18px; }
+.modal-actions { display:flex; gap:8px; justify-content:flex-end; margin-top:20px; }
+
+/* Tags */
+.tag-wrap { display:flex; flex-wrap:wrap; gap:5px; align-items:center; padding:7px 10px; border:1px solid var(--border-mid); border-radius:var(--r-sm); background:var(--bg); min-height:40px; }
+.tag-pill { display:flex; align-items:center; gap:3px; background:var(--surface2); padding:3px 9px; border-radius:100px; font-size:12px; }
+.tag-pill button { background:none; border:none; cursor:pointer; color:var(--text3); font-size:13px; line-height:1; padding:0 0 0 2px; }
+.tag-text-input { border:none; background:none; outline:none; font-family:'Jost',sans-serif; font-size:12px; font-weight:300; color:var(--text); min-width:70px; }
+
+/* Thumb upload */
+.thumb-upload { width:100%; aspect-ratio:4/3; border:2px dashed var(--border-mid); border-radius:var(--r-sm); display:flex; align-items:center; justify-content:center; cursor:pointer; background:var(--surface2); transition:border-color .15s; overflow:hidden; position:relative; }
+.thumb-upload:hover { border-color:var(--accent); }
+.thumb-upload input { position:absolute; inset:0; opacity:0; cursor:pointer; }
+.thumb-upload-txt { font-size:12px; color:var(--text3); text-align:center; pointer-events:none; }
+.thumb-preview { width:100%; height:100%; object-fit:cover; }
+
+/* ── WEEK — DESKTOP ── */
+.week-bar { display:flex; align-items:center; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+.week-range { font-size:13px; color:var(--text3); margin-left:auto; }
+.week-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-bottom:24px; }
+.day-col { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; transition:box-shadow .15s; }
+.day-col:hover { box-shadow:var(--shadow); }
+.day-col.today { border-color:var(--accent-l); }
+.day-head { padding:10px 12px 8px; border-bottom:1px solid var(--border); background:var(--surface2); }
+.day-name { font-size:10px; font-weight:500; color:var(--text3); letter-spacing:1px; text-transform:uppercase; margin-bottom:1px; }
+.day-date { font-family:'Cormorant Garamond',serif; font-size:19px; font-weight:400; line-height:1; }
+.day-col.today .day-date { color:var(--accent); }
+.day-body { padding:10px 12px; min-height:140px; }
+.day-empty { font-size:11px; color:var(--text3); text-align:center; padding:20px 0; font-style:italic; }
+.day-sec { margin-bottom:7px; }
+.day-sec-lbl { font-size:9px; font-weight:500; letter-spacing:.8px; text-transform:uppercase; color:var(--text3); margin-bottom:2px; }
+.day-sec-val { font-size:11px; color:var(--text2); line-height:1.4; font-weight:300; }
+.day-badge { display:inline-block; font-size:9px; padding:2px 7px; border-radius:100px; margin-bottom:5px; background:var(--slate-p); color:var(--slate); }
+.day-link { font-size:10px; color:var(--accent); text-decoration:none; }
+.day-link:hover { text-decoration:underline; }
+
+/* ── WEEK — MOBILE LIST ── */
+.week-list { display:none; flex-direction:column; gap:10px; margin-bottom:24px; }
+.week-list-item { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.week-list-item.today { border-color:var(--accent-l); }
+.wli-head { display:flex; align-items:center; gap:12px; padding:14px 16px; cursor:pointer; }
+.wli-date-block { text-align:center; flex-shrink:0; }
+.wli-day-name { font-size:10px; font-weight:500; letter-spacing:1px; text-transform:uppercase; color:var(--text3); }
+.wli-day-num { font-family:'Cormorant Garamond',serif; font-size:28px; font-weight:400; line-height:1; color:var(--text); }
+.week-list-item.today .wli-day-num { color:var(--accent); }
+.wli-summary { flex:1; }
+.wli-scene { font-size:11px; color:var(--accent); font-weight:400; margin-bottom:2px; }
+.wli-outfit { font-size:13px; color:var(--text); font-weight:400; }
+.wli-empty { font-size:13px; color:var(--text3); font-style:italic; }
+.wli-chevron { color:var(--text3); font-size:16px; transition:transform .2s; flex-shrink:0; }
+.wli-chevron.open { transform:rotate(180deg); }
+.wli-body { display:none; border-top:1px solid var(--border); padding:16px; }
+.wli-body.open { display:block; }
+.wli-row { margin-bottom:10px; }
+.wli-row-lbl { font-size:10px; font-weight:500; letter-spacing:.8px; text-transform:uppercase; color:var(--text3); margin-bottom:3px; }
+.wli-row-val { font-size:13px; color:var(--text2); line-height:1.5; font-weight:300; }
+.wli-link { font-size:12px; color:var(--accent); text-decoration:none; display:inline-block; margin-top:4px; }
+
+/* generating */
+.gen-overlay { grid-column:1/-1; text-align:center; padding:48px; color:var(--text3); font-size:13px; }
+.dots span { display:inline-block; width:5px; height:5px; border-radius:50%; background:var(--accent); margin:0 3px; animation:db .9s infinite; }
+.dots span:nth-child(2) { animation-delay:.15s; }
+.dots span:nth-child(3) { animation-delay:.3s; }
+@keyframes db { 0%,80%,100%{transform:scale(.6);opacity:.4} 40%{transform:scale(1);opacity:1} }
+.gen-list { text-align:center; padding:40px 20px; color:var(--text3); font-size:13px; }
+
+/* ── WARDROBE ── */
+.section-bar { display:flex; align-items:center; gap:8px; margin-bottom:16px; flex-wrap:wrap; }
+.cat-chips { display:flex; gap:4px; flex-wrap:wrap; }
+.chip { font-family:'Jost',sans-serif; font-size:12px; background:var(--surface); border:1px solid var(--border); padding:5px 13px; border-radius:100px; cursor:pointer; color:var(--text2); transition:all .15s; }
+.chip:hover { border-color:var(--text2); }
+.chip.active { background:var(--text); color:#fff; border-color:var(--text); }
+.wardrobe-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+.item-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; transition:box-shadow .15s,transform .15s; position:relative; }
+.item-card:hover { box-shadow:var(--shadow); transform:translateY(-2px); }
+.item-thumb-ph { width:100%; aspect-ratio:3/4; background:var(--surface2); display:flex; align-items:center; justify-content:center; font-size:36px; overflow:hidden; }
+.item-thumb-ph img { width:100%; height:100%; object-fit:cover; }
+.item-info { padding:10px 12px; }
+.item-cat { font-size:9px; font-weight:500; letter-spacing:.8px; text-transform:uppercase; color:var(--text3); margin-bottom:3px; }
+.item-name { font-size:13px; font-weight:400; margin-bottom:3px; }
+.item-desc { font-size:11px; color:var(--text3); line-height:1.4; font-weight:300; }
+.item-tags { display:flex; flex-wrap:wrap; gap:3px; margin-top:6px; }
+.item-tag { font-size:10px; padding:2px 7px; border-radius:100px; background:var(--surface2); color:var(--text3); }
+.item-del { position:absolute; top:7px; right:7px; background:rgba(255,255,255,.88); border:none; border-radius:50%; width:26px; height:26px; cursor:pointer; font-size:14px; display:none; align-items:center; justify-content:center; color:var(--text2); box-shadow:0 1px 4px rgba(0,0,0,.1); }
+.item-card:hover .item-del { display:flex; }
+.grid-empty { grid-column:1/-1; text-align:center; padding:56px; color:var(--text3); font-size:13px; font-style:italic; }
+
+/* ── INSPO ── */
+.inspo-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+.inspo-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; transition:box-shadow .15s,transform .15s; position:relative; }
+.inspo-card:hover { box-shadow:var(--shadow); transform:translateY(-2px); }
+.inspo-thumb-ph { width:100%; aspect-ratio:4/3; background:var(--surface2); display:flex; align-items:center; justify-content:center; font-size:32px; overflow:hidden; }
+.inspo-thumb-ph img { width:100%; height:100%; object-fit:cover; }
+.inspo-info { padding:12px 14px; }
+.inspo-type { font-size:9px; font-weight:500; letter-spacing:.8px; text-transform:uppercase; margin-bottom:4px; }
+.type-makeup { color:var(--rose); } .type-hair { color:var(--sage); } .type-outfit { color:var(--accent); }
+.inspo-title { font-size:13px; font-weight:400; margin-bottom:3px; line-height:1.3; }
+.inspo-note { font-size:11px; color:var(--text3); line-height:1.4; margin-bottom:6px; }
+.inspo-link { font-size:11px; color:var(--accent); text-decoration:none; }
+.inspo-link:hover { text-decoration:underline; }
+.inspo-del { position:absolute; top:7px; right:7px; background:rgba(255,255,255,.88); border:none; border-radius:50%; width:26px; height:26px; cursor:pointer; font-size:14px; display:none; align-items:center; justify-content:center; color:var(--text2); box-shadow:0 1px 4px rgba(0,0,0,.1); }
+.inspo-card:hover .inspo-del { display:flex; }
+.fab { position:fixed; bottom:calc(28px + env(safe-area-inset-bottom)); right:24px; width:50px; height:50px; border-radius:50%; background:var(--text); color:#fff; border:none; font-size:22px; cursor:pointer; box-shadow:0 4px 18px rgba(30,26,22,.22); transition:transform .15s; display:flex; align-items:center; justify-content:center; z-index:100; }
+.fab:hover { transform:scale(1.08); }
+
+/* ── SKINCARE ── */
+.sc-controls { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+.toggle-pill { display:flex; background:var(--surface); border:1px solid var(--border); border-radius:100px; padding:3px; gap:2px; }
+.toggle-pill button { font-family:'Jost',sans-serif; font-size:13px; background:none; border:none; padding:6px 16px; border-radius:100px; cursor:pointer; color:var(--text3); transition:all .15s; font-weight:300; white-space:nowrap; }
+.toggle-pill button.active { background:var(--text); color:#fff; }
+.toggle-lbl { font-size:12px; color:var(--text3); align-self:center; white-space:nowrap; }
+.notice { border-radius:var(--r-sm); padding:12px 15px; margin-bottom:18px; font-size:13px; display:flex; gap:9px; line-height:1.5; }
+.notice-season { background:var(--accent-p); color:#8a6a3a; }
+.notice-clear { background:var(--sage-p); color:#3d6647; }
+.notice-acne { background:var(--rose-p); color:#8b4a52; }
+.routine-cols { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:20px; }
+.routine-card { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); overflow:hidden; }
+.rc-head { padding:16px 20px 12px; border-bottom:1px solid var(--border); display:flex; align-items:center; gap:9px; background:var(--surface2); }
+.rc-title { font-family:'Cormorant Garamond',serif; font-size:18px; font-weight:400; }
+.rc-time { margin-left:auto; font-size:11px; color:var(--text3); }
+.sc-step { display:flex; gap:11px; padding:12px 20px; border-bottom:1px solid var(--border); align-items:flex-start; }
+.sc-step:last-child { border-bottom:none; }
+.sc-step:hover { background:var(--bg); }
+.sc-step.hidden { display:none; }
+.sc-num { width:19px; height:19px; border-radius:50%; background:var(--surface2); display:flex; align-items:center; justify-content:center; font-size:10px; color:var(--text3); flex-shrink:0; margin-top:2px; }
+.sc-action { font-size:13.5px; font-weight:400; margin-bottom:2px; }
+.sc-product { font-size:12px; color:var(--text2); font-weight:300; margin-bottom:3px; }
+.sc-note { font-size:11px; color:var(--text3); line-height:1.5; }
+.sc-tag { display:inline-block; font-size:10px; padding:2px 7px; border-radius:100px; margin-top:3px; margin-right:3px; }
+.sc-tag-warn { background:#fef3d8; color:#9a6a10; }
+.sc-tag-local { background:var(--sage-p); color:var(--sage); }
+.sc-tag-acne { background:var(--rose-p); color:var(--rose); }
+
+/* ── COLLAPSE ── */
+.collapse-section { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); margin-bottom:14px; overflow:hidden; }
+.collapse-header { display:flex; align-items:center; justify-content:space-between; padding:18px 22px; cursor:pointer; user-select:none; transition:background .15s; }
+.collapse-header:hover { background:var(--surface2); }
+.collapse-title { font-family:'Cormorant Garamond',serif; font-size:20px; font-weight:400; }
+.collapse-sub { font-size:12px; color:var(--text3); margin-top:2px; }
+.collapse-arrow { font-size:18px; color:var(--text3); transition:transform .2s; flex-shrink:0; }
+.collapse-arrow.open { transform:rotate(180deg); }
+.collapse-body { display:none; border-top:1px solid var(--border); }
+.collapse-body.open { display:block; }
+.collapse-inner { padding:22px; }
+.week-plan-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:8px; margin-bottom:20px; }
+.wday-card { background:var(--surface2); border-radius:var(--r-sm); overflow:hidden; }
+.wday-name { font-size:10px; font-weight:500; letter-spacing:.8px; text-transform:uppercase; color:var(--text3); padding:7px 8px 5px; text-align:center; border-bottom:1px solid var(--border); }
+.wday-tasks { padding:7px; display:flex; flex-direction:column; gap:4px; min-height:64px; }
+.wday-task { font-size:10px; padding:3px 6px; border-radius:5px; text-align:center; line-height:1.3; }
+.special-cards { display:grid; grid-template-columns:repeat(3,1fr); gap:12px; margin-bottom:20px; }
+.special-card { background:var(--surface2); border-radius:var(--r-sm); padding:16px; }
+.special-card-title { font-size:14px; font-weight:500; margin-bottom:2px; }
+.special-card-freq { font-size:11px; color:var(--text3); margin-bottom:10px; }
+.special-steps { list-style:none; display:flex; flex-direction:column; gap:6px; }
+.special-steps li { font-size:12px; color:var(--text2); padding-left:12px; position:relative; line-height:1.5; }
+.special-steps li::before { content:''; position:absolute; left:0; top:7px; width:4px; height:4px; border-radius:50%; background:var(--text3); }
+.special-note { margin-top:10px; padding:9px 11px; background:var(--bg); border-radius:var(--r-sm); font-size:11px; color:var(--text3); line-height:1.5; }
+.conflict-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.conflict-card { background:var(--surface2); border-radius:var(--r-sm); padding:14px 16px; }
+.conflict-card-title { font-size:12px; font-weight:500; margin-bottom:5px; }
+.conflict-card-text { font-size:12px; color:var(--text2); font-weight:300; line-height:1.6; }
+.product-section-title { font-size:11px; font-weight:500; letter-spacing:1px; text-transform:uppercase; color:var(--text3); margin-bottom:10px; margin-top:18px; }
+.product-section-title:first-child { margin-top:0; }
+.products-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-bottom:6px; }
+.product-card { background:var(--surface2); border-radius:var(--r-sm); padding:14px; }
+.product-brand { font-size:10px; font-weight:500; letter-spacing:1px; text-transform:uppercase; color:var(--text3); margin-bottom:3px; }
+.product-name { font-size:13px; font-weight:400; margin-bottom:7px; line-height:1.3; }
+.product-tags { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:9px; }
+.product-tag { font-size:10px; padding:2px 7px; border-radius:100px; }
+.product-tag-am { background:#fef3d8; color:#9a6a10; }
+.product-tag-pm { background:var(--slate-p); color:var(--slate); }
+.product-tag-local { background:var(--sage-p); color:var(--sage); }
+.product-tag-must { background:var(--rose-p); color:var(--rose); }
+.product-meta { font-size:11.5px; color:var(--text2); font-weight:300; line-height:1.6; border-top:1px solid var(--border); padding-top:9px; }
+.product-meta strong { display:block; font-size:10px; font-weight:500; color:var(--text); margin-top:5px; margin-bottom:1px; text-transform:uppercase; letter-spacing:.4px; }
+
+/* ── CHAT ── */
+.chat-layout { display:grid; grid-template-columns:240px 1fr; gap:16px; height:calc(100vh - 120px); }
+.chat-sidebar { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); padding:18px 14px; display:flex; flex-direction:column; gap:14px; overflow-y:auto; }
+.sidebar-lbl { font-size:10px; font-weight:500; letter-spacing:1px; text-transform:uppercase; color:var(--text3); margin-bottom:6px; }
+.qp { font-family:'Jost',sans-serif; font-size:12px; font-weight:300; background:var(--surface2); border:1px solid var(--border); padding:8px 11px; border-radius:var(--r-sm); cursor:pointer; color:var(--text2); text-align:left; width:100%; line-height:1.4; transition:all .15s; }
+.qp:hover { border-color:var(--accent-l); background:var(--accent-p); color:var(--text); }
+.chat-main { background:var(--surface); border:1px solid var(--border); border-radius:var(--r); display:flex; flex-direction:column; overflow:hidden; }
+.chat-msgs { flex:1; overflow-y:auto; padding:20px; display:flex; flex-direction:column; gap:14px; }
+.msg { display:flex; gap:10px; max-width:88%; }
+.msg-user { flex-direction:row-reverse; align-self:flex-end; }
+.msg-ai { align-self:flex-start; }
+.msg-av { width:28px; height:28px; border-radius:50%; flex-shrink:0; display:flex; align-items:center; justify-content:center; font-size:12px; margin-top:2px; }
+.msg-ai .msg-av { background:var(--accent-p); color:var(--accent); }
+.msg-user .msg-av { background:var(--surface2); color:var(--text2); }
+.msg-bubble { padding:11px 15px; border-radius:var(--r); font-size:13.5px; line-height:1.65; font-weight:300; }
+.msg-ai .msg-bubble { background:var(--surface2); border-radius:4px 12px 12px 12px; }
+.msg-user .msg-bubble { background:var(--text); color:#fff; border-radius:12px 4px 12px 12px; }
+.chat-input-area { border-top:1px solid var(--border); padding:14px 18px; display:flex; gap:8px; align-items:flex-end; }
+.chat-ta { flex:1; font-family:'Jost',sans-serif; font-size:13px; font-weight:300; border:1px solid var(--border-mid); border-radius:10px; padding:10px 14px; background:var(--bg); color:var(--text); resize:none; outline:none; transition:border-color .15s; max-height:110px; min-height:40px; }
+.chat-ta:focus { border-color:var(--accent); }
+.chat-send { width:38px; height:38px; border-radius:50%; background:var(--text); color:#fff; border:none; cursor:pointer; font-size:15px; flex-shrink:0; transition:opacity .15s; display:flex; align-items:center; justify-content:center; }
+.chat-send:hover { opacity:.8; }
+.chat-send:disabled { opacity:.35; cursor:not-allowed; }
+hr.div { border:none; border-top:1px solid var(--border); margin:0; }
+
+/* ══════════════════════════════
+   MOBILE RESPONSIVE
+   ══════════════════════════════ */
+@media (max-width: 768px) {
+  header nav, header .api-status { display:none; }
+  header { padding:0 16px; justify-content:space-between; }
+  .logo { font-size:19px; }
+  .mobile-api-btn { display:flex !important; }
+  .bottom-nav { display:flex; }
+  main { padding:20px 16px calc(var(--bottom-h) + 20px); }
+
+  /* overlay becomes bottom sheet */
+  .overlay { align-items:flex-end; }
+  .modal { border-radius:var(--r) var(--r) 0 0; max-height:90vh; padding:16px 20px 32px; }
+
+  /* week — hide grid, show list */
+  .week-grid { display:none; }
+  .week-list { display:flex; }
+  .week-bar { gap:8px; }
+  .week-range { display:none; }
+
+  /* wardrobe — 2 col */
+  .wardrobe-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+  .item-del { display:flex !important; }
+
+  /* inspo — 2 col */
+  .inspo-grid { grid-template-columns:repeat(2,1fr); gap:10px; }
+  .inspo-del { display:flex !important; }
+  .fab { bottom:calc(var(--bottom-h) + 16px); right:16px; }
+
+  /* skincare */
+  .routine-cols { grid-template-columns:1fr; }
+  .sc-controls { gap:8px; }
+  .toggle-pill button { padding:6px 12px; font-size:12px; }
+  .week-plan-grid { grid-template-columns:repeat(4,1fr); }
+  .special-cards { grid-template-columns:1fr; }
+  .conflict-grid { grid-template-columns:1fr; }
+  .products-grid { grid-template-columns:1fr 1fr; }
+  .collapse-header { padding:14px 16px; }
+  .collapse-inner { padding:16px; }
+
+  /* chat — full width, no sidebar */
+  .chat-layout { grid-template-columns:1fr; height:calc(100vh - var(--bottom-h) - 120px); }
+  .chat-sidebar { display:none; }
+  .ph { margin-bottom:16px; }
+  .ph-title { font-size:26px; }
+  .ph-row { flex-direction:column; gap:10px; }
+  .ph-row .btn { width:100%; text-align:center; }
+}
+
+@media (max-width: 480px) {
+  .wardrobe-grid { grid-template-columns:repeat(2,1fr); }
+  .inspo-grid { grid-template-columns:1fr 1fr; }
+  .products-grid { grid-template-columns:1fr; }
+  .week-plan-grid { grid-template-columns:repeat(4,1fr); }
+}
+
+.mobile-api-btn { display:none; font-size:11px; color:var(--text3); cursor:pointer; border:1px solid var(--border-mid); padding:4px 10px; border-radius:100px; background:none; white-space:nowrap; }
+.mobile-api-btn.ok { border-color:var(--sage); color:var(--sage); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">my style <em>atelier</em></div>
+  <nav>
+    <button class="active" onclick="go('week')">🗓 This Week</button>
+    <button onclick="go('wardrobe')">👗 Wardrobe</button>
+    <button onclick="go('inspo')">💄 Inspiration</button>
+    <button onclick="go('skin')">🧴 Skincare</button>
+    <button onclick="go('chat')">✨ AI Stylist</button>
+  </nav>
+  <button class="api-status" id="api-btn" onclick="openApiModal()">⚙ Connect Backend</button>
+  <button class="mobile-api-btn" id="mobile-api-btn" onclick="openApiModal()">⚙</button>
+</header>
+
+<!-- Bottom nav (mobile) -->
+<nav class="bottom-nav">
+  <button class="bn-btn active" onclick="go('week')"><span class="bn-icon">🗓</span>Week</button>
+  <button class="bn-btn" onclick="go('wardrobe')"><span class="bn-icon">👗</span>Wardrobe</button>
+  <button class="bn-btn" onclick="go('inspo')"><span class="bn-icon">💄</span>Inspo</button>
+  <button class="bn-btn" onclick="go('skin')"><span class="bn-icon">🧴</span>Skincare</button>
+  <button class="bn-btn" onclick="go('chat')"><span class="bn-icon">✨</span>AI</button>
+</nav>
+
+<main>
+
+<!-- ══ THIS WEEK ══ -->
+<div class="page active" id="page-week">
+  <div class="ph">
+    <div class="ph-row">
+      <div><div class="ph-title">This Week</div><div class="ph-sub">AI plans from your wardrobe · one session per week</div></div>
+      <div style="display:flex;gap:8px;flex-shrink:0;align-items:center">
+        <button class="btn btn-outline btn-sm" onclick="clearWeek()">Clear</button>
+        <button class="btn btn-primary btn-sm" onclick="openWeekModal()">✦ Generate</button>
+      </div>
+    </div>
+  </div>
+  <!-- Desktop grid -->
+  <div class="week-grid" id="week-grid"></div>
+  <!-- Mobile list -->
+  <div class="week-list" id="week-list"></div>
+</div>
+
+<!-- ══ WARDROBE ══ -->
+<div class="page" id="page-wardrobe">
+  <div class="ph ph-row">
+    <div><div class="ph-title">My Wardrobe</div><div class="ph-sub">AI only picks from items listed here</div></div>
+    <button class="btn btn-primary btn-sm" style="flex-shrink:0;margin-top:4px" onclick="openItemModal()">+ Add</button>
+  </div>
+  <div class="section-bar">
+    <div class="cat-chips">
+      <button class="chip active" onclick="filterWardrobe('all')">All</button>
+      <button class="chip" onclick="filterWardrobe('Tops')">Tops</button>
+      <button class="chip" onclick="filterWardrobe('Bottoms')">Bottoms</button>
+      <button class="chip" onclick="filterWardrobe('Outerwear')">Outerwear</button>
+      <button class="chip" onclick="filterWardrobe('Shoes')">Shoes</button>
+      <button class="chip" onclick="filterWardrobe('Accessories')">Accessories</button>
+    </div>
+  </div>
+  <div class="wardrobe-grid" id="wardrobe-grid"></div>
+</div>
+
+<!-- ══ INSPIRATION ══ -->
+<div class="page" id="page-inspo">
+  <div class="ph"><div class="ph-title">Inspiration</div><div class="ph-sub">Save tutorials you love — AI references these for your looks</div></div>
+  <div class="section-bar">
+    <div class="cat-chips">
+      <button class="chip active" onclick="filterInspo('all')">All</button>
+      <button class="chip" onclick="filterInspo('makeup')">💄 Makeup</button>
+      <button class="chip" onclick="filterInspo('hair')">💇 Hair</button>
+      <button class="chip" onclick="filterInspo('outfit')">👗 Outfit</button>
+    </div>
+  </div>
+  <div class="inspo-grid" id="inspo-grid"></div>
+  <button class="fab" onclick="openInspoModal()">+</button>
+</div>
+
+<!-- ══ SKINCARE ══ -->
+<div class="page" id="page-skin">
+  <div class="ph"><div class="ph-title">Skincare</div><div class="ph-sub">Perth winter formula · two skin modes</div></div>
+  <div class="sc-controls">
+    <div style="display:flex;align-items:center;gap:8px"><span class="toggle-lbl">Skin</span>
+      <div class="toggle-pill">
+        <button class="active" onclick="setSkin('clear')">✨ Clear</button>
+        <button onclick="setSkin('acne')">🔴 Breaking out</button>
+      </div>
+    </div>
+    <div style="display:flex;align-items:center;gap:8px"><span class="toggle-lbl">Season</span>
+      <div class="toggle-pill">
+        <button class="active" onclick="setSeason('winter')">❄️ Winter</button>
+        <button onclick="setSeason('summer')">☀️ Summer</button>
+      </div>
+    </div>
+  </div>
+  <div class="notice notice-season" id="sc-season"></div>
+  <div class="notice" id="sc-skin"></div>
+  <div class="routine-cols">
+    <div class="routine-card">
+      <div class="rc-head"><span>☀️</span><span class="rc-title">Morning</span><span class="rc-time">~8–10 min</span></div>
+      <div id="am-list">
+        <div class="sc-step"><div class="sc-num">1</div><div><div class="sc-action">Rinse with water</div><div class="sc-product">Lukewarm water only</div><div class="sc-note">No cleanser needed in the morning.</div></div></div>
+        <div class="sc-step"><div class="sc-num">2</div><div><div class="sc-action">Essence toner</div><div class="sc-product">Bioderma Hydrabio Essence Lotion</div><div class="sc-note">Pat gently all over. Hydrates and preps skin.</div></div></div>
+        <div class="sc-step"><div class="sc-num">3</div><div><div class="sc-action">Eye cream</div><div class="sc-product">SK-II Skinpower Eye Cream</div><div class="sc-note">Ring finger, light tapping. No actives near this zone.</div></div></div>
+        <div class="sc-step"><div class="sc-num">4</div><div><div class="sc-action">Brightening serum</div><div class="sc-product">SK-II Serum (Aura / GenOptics)</div><div class="sc-note">Full face. Niacinamide brightens and controls oil.</div></div></div>
+        <div class="sc-step acne-only hidden"><div class="sc-num">·</div><div><div class="sc-action">Spot fade</div><div class="sc-product">La Roche-Posay Mela B3</div><div class="sc-note">Dab on dark post-acne marks only. Avoid eye area.</div><span class="sc-tag sc-tag-local">Spot only</span></div></div>
+        <div class="sc-step"><div class="sc-num" id="am5n">5</div><div><div class="sc-action">Moisturiser</div><div class="sc-product" id="am5p">La Roche-Posay Toleriane Fluid</div><div class="sc-note" id="am5nt">Lightweight hydration to lock in serum.</div></div></div>
+        <div class="sc-step"><div class="sc-num" id="am6n">6</div><div><div class="sc-action">Sunscreen ☀️</div><div class="sc-product">La Roche-Posay Anthelios SPF50+</div><div class="sc-note">Last step, every day — even Perth winter.</div><span class="sc-tag sc-tag-warn">Non-negotiable</span></div></div>
+      </div>
+    </div>
+    <div class="routine-card">
+      <div class="rc-head"><span>🌙</span><span class="rc-title">Evening</span><span class="rc-time">~10–15 min</span></div>
+      <div id="pm-list">
+        <div class="sc-step"><div class="sc-num">1</div><div><div class="sc-action">Cleanse</div><div class="sc-product">SK-II Facial Treatment Cleanser</div><div class="sc-note">Gentle amino acid foam. Remove SPF and buildup.</div></div></div>
+        <div class="sc-step"><div class="sc-num">2</div><div><div class="sc-action">Treatment essence</div><div class="sc-product">SK-II Facial Treatment Essence (Pitera)</div><div class="sc-note">Pat in to refine texture and control oil.</div></div></div>
+        <div class="sc-step"><div class="sc-num">3</div><div><div class="sc-action">Eye cream</div><div class="sc-product">SK-II Skinpower Eye Cream</div><div class="sc-note">Before actives — keep eye area protected.</div></div></div>
+        <div class="sc-step acne-only hidden"><div class="sc-num">·</div><div><div class="sc-action">Fade serum</div><div class="sc-product">La Roche-Posay Mela B3</div><div class="sc-note">Full face or targeted. Before moisturiser. Avoid eye area.</div><span class="sc-tag sc-tag-acne">Breaking out</span></div></div>
+        <div class="sc-step"><div class="sc-num" id="pm4n">4</div><div><div class="sc-action">Moisturiser</div><div class="sc-product" id="pm4p">SK-II Skinpower Cream</div><div class="sc-note" id="pm4nt">Rich overnight repair. Apply generously in winter.</div><span class="sc-tag sc-tag-warn" id="wtag">Layer up in winter</span></div></div>
+        <div class="sc-step acne-only hidden"><div class="sc-num">·</div><div><div class="sc-action">Targeted treatments</div><div class="sc-product">Finacea 15% Azelaic Acid + LRP DUO+M</div><div class="sc-note">Last step. Azelaic acid on red marks. DUO+M on active spots.</div><span class="sc-tag sc-tag-local">Spot only</span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="collapse-section">
+    <div class="collapse-header" onclick="toggleCollapse('weekly-plan')">
+      <div><div class="collapse-title">Weekly Treatment Plan</div><div class="collapse-sub">Sheet mask, exfoliation & clay mask schedule</div></div>
+      <div class="collapse-arrow" id="arrow-weekly-plan">↓</div>
+    </div>
+    <div class="collapse-body" id="body-weekly-plan">
+      <div class="collapse-inner">
+        <div class="week-plan-grid">
+          <div class="wday-card"><div class="wday-name">Mon</div><div class="wday-tasks"><div class="wday-task" style="background:var(--slate-p);color:var(--slate)">Routine</div></div></div>
+          <div class="wday-card"><div class="wday-name">Tue</div><div class="wday-tasks"><div class="wday-task" style="background:var(--slate-p);color:var(--slate)">Routine</div><div class="wday-task" style="background:var(--sage-p);color:var(--sage)">🌊 Mask</div></div></div>
+          <div class="wday-card"><div class="wday-name">Wed</div><div class="wday-tasks"><div class="wday-task" style="background:var(--slate-p);color:var(--slate)">Routine</div></div></div>
+          <div class="wday-card"><div class="wday-name">Thu</div><div class="wday-tasks"><div class="wday-task" style="background:var(--slate-p);color:var(--slate)">Routine</div><div class="wday-task" style="background:var(--accent-p);color:var(--accent)">🍯 Clay</div></div></div>
+          <div class="wday-card"><div class="wday-name">Fri</div><div class="wday-tasks"><div class="wday-task" style="background:var(--slate-p);color:var(--slate)">Routine</div></div></div>
+          <div class="wday-card"><div class="wday-name">Sat</div><div class="wday-tasks"><div class="wday-task" style="background:var(--slate-p);color:var(--slate)">Routine</div><div class="wday-task" style="background:var(--rose-p);color:var(--rose)">🌸 Exfo</div></div></div>
+          <div class="wday-card"><div class="wday-name">Sun</div><div class="wday-tasks"><div class="wday-task" style="background:var(--slate-p);color:var(--slate)">Routine</div><div class="wday-task" style="background:var(--sage-p);color:var(--sage)">🌊 Mask</div></div></div>
+        </div>
+        <div class="special-cards">
+          <div class="special-card">
+            <div class="special-card-title">🌊 Sheet Mask Compress</div>
+            <div class="special-card-freq">1–2× per week</div>
+            <ul class="special-steps">
+              <li>Cleanse and tone as usual</li>
+              <li>Soak cotton pad with Bioderma, wring till barely damp</li>
+              <li>Apply to full face 10–15 minutes</li>
+              <li>Remove and continue with eye cream + serum</li>
+              <li>This replaces the toner step</li>
+            </ul>
+            <div class="special-note">Best for Perth winter dryness. Use after any day skin feels tight. Don't combine with exfoliation same day.</div>
+          </div>
+          <div class="special-card">
+            <div class="special-card-title">🍯 Swisse Clay Mask</div>
+            <div class="special-card-freq">1× per week</div>
+            <ul class="special-steps">
+              <li>Apply to dry, cleansed skin (avoid eye area)</li>
+              <li>Leave 10–15 min — remove before fully dry</li>
+              <li>Rinse thoroughly with lukewarm water</li>
+              <li>Follow with full hydration routine immediately</li>
+            </ul>
+            <div class="special-note">Manuka honey cleanses and hydrates simultaneously. In winter, follow-up moisturiser is essential. Avoid applying over active inflamed spots.</div>
+          </div>
+          <div class="special-card">
+            <div class="special-card-title">🌸 Exfoliation</div>
+            <div class="special-card-freq">1× per week · clear skin only</div>
+            <ul class="special-steps">
+              <li>After cleansing, apply exfoliant as directed</li>
+              <li>Rinse and follow with full routine</li>
+              <li>Skip azelaic acid that same evening</li>
+              <li>Extra SPF the next morning</li>
+            </ul>
+            <div class="special-note">⚠️ Skip entirely when breaking out. In winter, max once a week to protect the skin barrier.</div>
+          </div>
+        </div>
+        <div style="font-size:13px;font-weight:500;color:var(--text);margin-bottom:10px">Rules</div>
+        <div class="conflict-grid">
+          <div class="conflict-card"><div class="conflict-card-title">One treatment per day</div><div class="conflict-card-text">Never layer sheet mask + clay mask + exfoliation on the same day.</div></div>
+          <div class="conflict-card"><div class="conflict-card-title">Day after exfoliating</div><div class="conflict-card-text">Skip azelaic acid if skin feels sensitive. Prioritise moisture and SPF.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="collapse-section">
+    <div class="collapse-header" onclick="toggleCollapse('product-lib')">
+      <div><div class="collapse-title">Product Library</div><div class="collapse-sub">Your full product list with usage notes</div></div>
+      <div class="collapse-arrow" id="arrow-product-lib">↓</div>
+    </div>
+    <div class="collapse-body" id="body-product-lib">
+      <div class="collapse-inner">
+        <div class="product-section-title">SK-II</div>
+        <div class="products-grid">
+          <div class="product-card"><div class="product-brand">SK-II</div><div class="product-name">Facial Treatment Cleanser</div><div class="product-tags"><span class="product-tag product-tag-pm">Evening</span></div><div class="product-meta">Gentle amino acid foam.<strong>Use</strong>Evening only. No more than 30 sec on skin. Morning: water only.</div></div>
+          <div class="product-card"><div class="product-brand">SK-II</div><div class="product-name">Facial Treatment Essence</div><div class="product-tags"><span class="product-tag product-tag-pm">Evening</span></div><div class="product-meta">90%+ Pitera. Refines texture, controls oil.<strong>Use</strong>After cleansing. Pat until absorbed.</div></div>
+          <div class="product-card"><div class="product-brand">SK-II</div><div class="product-name">Serum (Aura / GenOptics)</div><div class="product-tags"><span class="product-tag product-tag-am">Morning</span></div><div class="product-meta">High-concentration niacinamide + brighteners.<strong>Note</strong>Morning only. Don't double up with Mela B3 full face.</div></div>
+          <div class="product-card"><div class="product-brand">SK-II</div><div class="product-name">Skinpower Eye Cream</div><div class="product-tags"><span class="product-tag product-tag-am">AM</span><span class="product-tag product-tag-pm">PM</span></div><div class="product-meta">Anti-ageing eye repair.<strong>Use</strong>After toner, before face serums. Ring finger tapping only. No actives near this zone.</div></div>
+          <div class="product-card"><div class="product-brand">SK-II</div><div class="product-name">Skinpower Cream</div><div class="product-tags"><span class="product-tag product-tag-pm">Evening</span></div><div class="product-meta">Rich overnight moisturiser.<strong>Winter</strong>Apply generously. In summer swap for Airy Milky Lotion if too heavy.</div></div>
+        </div>
+        <div class="product-section-title">La Roche-Posay</div>
+        <div class="products-grid">
+          <div class="product-card"><div class="product-brand">La Roche-Posay</div><div class="product-name">Anthelios SPF50+</div><div class="product-tags"><span class="product-tag product-tag-must">Every morning</span></div><div class="product-meta">Broad spectrum, no white cast.<strong>Use</strong>Always last step AM. Coin-sized amount full face. Perth UV is high even in winter.</div></div>
+          <div class="product-card"><div class="product-brand">La Roche-Posay</div><div class="product-name">Toleriane Dermallergo Fluid</div><div class="product-tags"><span class="product-tag product-tag-am">Morning</span></div><div class="product-meta">Ultra-lightweight, zero-irritant.<strong>Use</strong>Morning moisturiser, or emergency barrier repair when skin is reactive.</div></div>
+          <div class="product-card"><div class="product-brand">La Roche-Posay</div><div class="product-name">Mela B3 Serum</div><div class="product-tags"><span class="product-tag product-tag-local">Breaking out</span></div><div class="product-meta">Niacinamide + dark spot actives.<strong>Breaking out</strong>Full face PM, or AM spot-only on dark marks.</div></div>
+          <div class="product-card"><div class="product-brand">La Roche-Posay</div><div class="product-name">DUO+M (Colourless)</div><div class="product-tags"><span class="product-tag product-tag-local">Spot only</span></div><div class="product-meta">Targets active inflamed spots.<strong>Use</strong>AM + PM spot apply on raised, red, active breakouts. Never full face.</div></div>
+          <div class="product-card"><div class="product-brand">Finacea (Rx)</div><div class="product-name">Azelaic Acid Gel 15%</div><div class="product-tags"><span class="product-tag product-tag-pm">Evening</span><span class="product-tag product-tag-local">Spot</span></div><div class="product-meta">Fades red marks, anti-inflammatory.<strong>Use</strong>Last step PM. Spot apply on red marks. Skip on exfoliation nights. Every other night if sensitive in winter.</div></div>
+        </div>
+        <div class="product-section-title">Other</div>
+        <div class="products-grid">
+          <div class="product-card"><div class="product-brand">Bioderma</div><div class="product-name">Hydrabio Essence Lotion</div><div class="product-tags"><span class="product-tag product-tag-am">Morning</span><span class="product-tag product-tag-local">Compress</span></div><div class="product-meta">Zero-irritant hydrating essence.<strong>Double use</strong>Morning first step, or soak cotton pads for a compress (1–2× per week).</div></div>
+          <div class="product-card"><div class="product-brand">Swisse</div><div class="product-name">Manuka Honey Clay Mask</div><div class="product-tags"><span class="product-tag product-tag-local">1× per week</span></div><div class="product-meta">Cleansing + hydrating clay mask.<strong>Use</strong>Dry skin, 10–15 min, remove before fully dry. Must follow with full hydration routine.</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AI CHAT ══ -->
+<div class="page" id="page-chat">
+  <div class="ph"><div class="ph-title">AI Stylist</div><div class="ph-sub">Your personal style assistant</div></div>
+  <div class="chat-layout">
+    <div class="chat-sidebar">
+      <div>
+        <div class="sidebar-lbl">Quick questions</div>
+        <div style="display:flex;flex-direction:column;gap:5px">
+          <button class="qp" onclick="sendQ('I have a job interview — pick an outfit from my wardrobe and suggest matching makeup and hair.')">🎯 Interview look</button>
+          <button class="qp" onclick="sendQ('Recommend a beginner-friendly hairstyle with a YouTube tutorial link.')">💇 Beginner hairstyle</button>
+          <button class="qp" onclick="sendQ('My skin is oily today — how should I adjust my skincare and makeup?')">🧴 Oily skin day</button>
+          <button class="qp" onclick="sendQ('Give me a simple everyday makeup tutorial and explain each English term.')">💄 Everyday makeup</button>
+          <button class="qp" onclick="sendQ('Plan a date night look — outfit from my wardrobe, makeup and hair inspired by my saved inspo.')">✨ Date night</button>
+        </div>
+      </div>
+      <hr class="div">
+      <div>
+        <div class="sidebar-lbl">My profile</div>
+        <div style="font-size:12px;color:var(--text3);line-height:1.8">📍 Perth, Australia<br>🌿 Currently: Winter<br>💆 Acne-prone, intermittent<br>💇 Hair beginner<br>👗 Wardrobe: <span id="wardrobe-count">0</span> items</div>
+      </div>
+    </div>
+    <div class="chat-main">
+      <div class="chat-msgs" id="chat-msgs">
+        <div class="msg msg-ai">
+          <div class="msg-av">✦</div>
+          <div class="msg-bubble">Hi! I'm your personal style assistant ✨<br><br>I'll pick outfits from your <strong>wardrobe</strong>, reference your <strong>inspiration board</strong>, and reply entirely in <strong>English</strong>.<br><br>Start by adding items to your Wardrobe, then come ask me anything!</div>
+        </div>
+      </div>
+      <div class="chat-input-area">
+        <textarea class="chat-ta" id="chat-input" placeholder="Ask me anything…" rows="1" onkeydown="chatKey(event)" oninput="autoH(this)"></textarea>
+        <button class="chat-send" id="send-btn" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</main>
+
+<!-- MODAL: Backend -->
+<div class="overlay" id="api-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Connect Backend</div>
+    <div class="form-group">
+      <label class="form-label">Cloudflare Worker URL</label>
+      <input class="form-input" id="worker-url" placeholder="https://style-assistant.24582672.workers.dev" />
+      <div style="font-size:11px;color:var(--text3);margin-top:5px;line-height:1.6">Your API key lives securely in the Worker — never exposed in frontend code.</div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeM('api-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveWorkerUrl()">Save</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Generate week -->
+<div class="overlay" id="week-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Generate This Week</div>
+    <div id="no-wardrobe-warn" style="background:var(--accent-p);border-radius:var(--r-sm);padding:12px;font-size:13px;color:#8a6a3a;margin-bottom:16px;display:none">⚠️ Your wardrobe is empty! Add clothing items first so AI can build real outfits.</div>
+    <div class="form-group">
+      <label class="form-label">What's on this week?</label>
+      <textarea class="form-textarea" id="occasions" placeholder="e.g. Monday work meeting, Wednesday birthday dinner, Saturday date…"></textarea>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Weather / extra notes (optional)</label>
+      <input class="form-input" id="weather-note" placeholder="e.g. Perth winter, skin is dry this week…" />
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeM('week-modal')">Cancel</button>
+      <button class="btn btn-primary" onclick="generateWeek()">✦ Generate</button>
+    </div>
+  </div>
+</div>
+
+<!-- MODAL: Add wardrobe item -->
+<div class="overlay" id="item-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Add Item</div>
+    <div class="form-group"><label class="form-label">Category</label><select class="form-select" id="item-cat"><option>Tops</option><option>Bottoms</option><option>Outerwear</option><option>Shoes</option><option>Accessories</option></select></div>
+    <div class="form-group"><label class="form-label">Name</label><input class="form-input" id="item-name" placeholder="e.g. White linen shirt, Camel wide-leg trousers…" /></div>
+    <div class="form-group"><label class="form-label">Colour</label><input class="form-input" id="item-color" placeholder="e.g. Off-white, Navy, Camel…" /></div>
+    <div class="form-group"><label class="form-label">Description</label><textarea class="form-textarea" id="item-desc" placeholder="Style, fabric, occasions it suits…" style="min-height:56px"></textarea></div>
+    <div class="form-group"><label class="form-label">Style tags (press Enter)</label><div class="tag-wrap" id="item-tag-wrap"><input class="tag-text-input" id="item-tag-input" placeholder="casual, workwear…" onkeydown="addItemTag(event)"/></div></div>
+    <div class="form-group"><label class="form-label">Photo (optional)</label><div class="thumb-upload" id="item-thumb-area"><input type="file" accept="image/*" onchange="handleItemThumb(event)" /><div class="thumb-upload-txt">Tap to upload<br><small style="opacity:.6">Portrait crop recommended</small></div></div></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="closeM('item-modal')">Cancel</button><button class="btn btn-primary" onclick="saveItem()">Save</button></div>
+  </div>
+</div>
+
+<!-- MODAL: Add inspo -->
+<div class="overlay" id="inspo-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">Add Inspiration</div>
+    <div class="form-group"><label class="form-label">Type</label><select class="form-select" id="inspo-type"><option value="makeup">💄 Makeup</option><option value="hair">💇 Hair</option><option value="outfit">👗 Outfit Inspo</option></select></div>
+    <div class="form-group"><label class="form-label">Title</label><input class="form-input" id="inspo-title" placeholder="e.g. Glazed skin, Effortless low bun…" /></div>
+    <div class="form-group"><label class="form-label">Link</label><input class="form-input" id="inspo-url" placeholder="https://..." /></div>
+    <div class="form-group"><label class="form-label">Screenshot</label><div class="thumb-upload" id="inspo-thumb-area"><input type="file" accept="image/*" onchange="handleInspoThumb(event)" /><div class="thumb-upload-txt">Tap to upload</div></div></div>
+    <div class="form-group"><label class="form-label">Notes</label><textarea class="form-textarea" id="inspo-note" placeholder="What you love about it…" style="min-height:52px"></textarea></div>
+    <div class="form-group"><label class="form-label">Tags (press Enter)</label><div class="tag-wrap" id="inspo-tag-wrap"><input class="tag-text-input" id="inspo-tag-input" placeholder="everyday, date night…" onkeydown="addInspoTag(event)"/></div></div>
+    <div class="modal-actions"><button class="btn btn-outline" onclick="closeM('inspo-modal')">Cancel</button><button class="btn btn-primary" onclick="saveInspo()">Save</button></div>
+  </div>
+</div>
+
+<script>
+let WORKER = localStorage.getItem('worker_url') || '';
+let wardrobe = [], inspirations = [], weekPlan = {};
+let itemTags = [], inspoTags = [], itemThumb = '', inspoThumb = '';
+let skinMode = 'clear', seasonMode = 'winter', wardrobeFilter = 'all', inspoFilter = 'all';
+let chatHistory = [], msgN = 0;
+
+async function boot() {
+  updateApiBtn();
+  renderSkincare();
+  if (WORKER) await Promise.all([loadWardrobe(), loadInspo(), loadWeekPlan()]);
+  renderWeek(); renderWardrobe(); renderInspo();
+}
+
+function go(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('nav button, .bn-btn').forEach((b, i) => {
+    const pages = ['week','wardrobe','inspo','skin','chat'];
+    if (i < pages.length) b.classList.toggle('active', pages[i] === name);
+    else b.classList.toggle('active', pages[i - pages.length] === name);
+  });
+  if (name === 'chat') updateWardrobeCount();
+}
+
+function openApiModal() { document.getElementById('worker-url').value = WORKER; openM('api-modal'); }
+function saveWorkerUrl() {
+  WORKER = document.getElementById('worker-url').value.trim().replace(/\/$/, '');
+  localStorage.setItem('worker_url', WORKER);
+  updateApiBtn(); closeM('api-modal'); boot();
+}
+function updateApiBtn() {
+  const label = WORKER ? '✓ Connected' : '⚙ Connect';
+  const fullLabel = WORKER ? '✓ Backend connected' : '⚙ Connect Backend';
+  document.getElementById('api-btn').textContent = fullLabel;
+  document.getElementById('api-btn').classList.toggle('ok', !!WORKER);
+  document.getElementById('mobile-api-btn').textContent = label;
+  document.getElementById('mobile-api-btn').classList.toggle('ok', !!WORKER);
+}
+
+async function api(path, opts = {}) {
+  if (!WORKER) throw new Error('Please connect your backend first');
+  const res = await fetch(WORKER + path, { headers: {'Content-Type':'application/json'}, ...opts });
+  return res.json();
+}
+
+async function loadWardrobe() { try { wardrobe = await api('/api/wardrobe'); } catch(e) { wardrobe = []; } }
+async function loadInspo()    { try { inspirations = await api('/api/inspo'); } catch(e) { inspirations = []; } }
+async function loadWeekPlan() { try { weekPlan = await api('/api/week-plan'); } catch(e) { weekPlan = {}; } }
+
+// ── WEEK ────────────────────────────────────────────────
+function getWeekDates() {
+  const now = new Date(); const day = now.getDay();
+  const mon = new Date(now); mon.setDate(now.getDate() - (day === 0 ? 6 : day - 1));
+  return Array.from({length:7}, (_, i) => { const d = new Date(mon); d.setDate(mon.getDate() + i); return d; });
+}
+const DN = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+const DNfull = ['Monday','Tuesday','Wednesday','Thursday','Friday','Saturday','Sunday'];
+
+function renderWeek() {
+  const dates = getWeekDates();
+  const today = new Date(); today.setHours(0,0,0,0);
+
+  // Desktop grid
+  document.getElementById('week-grid').innerHTML = dates.map((d, i) => {
+    const key = d.toISOString().slice(0,10);
+    const p = weekPlan[key];
+    const isT = d.getTime() === today.getTime();
+    return `<div class="day-col${isT?' today':''}">
+      <div class="day-head"><div class="day-name">${DN[i]}</div><div class="day-date">${d.getDate()}</div></div>
+      <div class="day-body">${p ? renderDayDesktop(p) : '<div class="day-empty">—</div>'}</div>
+    </div>`;
+  }).join('');
+
+  // Mobile list
+  document.getElementById('week-list').innerHTML = dates.map((d, i) => {
+    const key = d.toISOString().slice(0,10);
+    const p = weekPlan[key];
+    const isT = d.getTime() === today.getTime();
+    return `<div class="week-list-item${isT?' today':''}">
+      <div class="wli-head" onclick="toggleDay('day-${i}')">
+        <div class="wli-date-block">
+          <div class="wli-day-name">${DN[i]}</div>
+          <div class="wli-day-num">${d.getDate()}</div>
+        </div>
+        <div class="wli-summary">
+          ${p ? `<div class="wli-scene">${p.scene || ''}</div><div class="wli-outfit">${p.outfit || ''}</div>`
+               : `<div class="wli-empty">Not planned yet</div>`}
+        </div>
+        <div class="wli-chevron" id="chev-day-${i}">↓</div>
+      </div>
+      <div class="wli-body" id="day-${i}">
+        ${p ? renderDayMobile(p) : '<div style="padding:4px 0;font-size:13px;color:var(--text3);font-style:italic">Generate a plan to fill this day.</div>'}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderDayDesktop(p) {
+  return `${p.scene?`<span class="day-badge">${p.scene}</span>`:''}
+    ${p.outfit?`<div class="day-sec"><div class="day-sec-lbl">Outfit</div><div class="day-sec-val">${p.outfit}</div></div>`:''}
+    ${p.makeup?`<div class="day-sec"><div class="day-sec-lbl">Makeup</div><div class="day-sec-val">${p.makeup}</div></div>`:''}
+    ${p.hair?`<div class="day-sec"><div class="day-sec-lbl">Hair</div><div class="day-sec-val">${p.hair}</div></div>`:''}
+    ${p.hair_video?`<a class="day-link" href="${p.hair_video}" target="_blank">▶ Hair tutorial</a>`:''}`;
+}
+
+function renderDayMobile(p) {
+  return `${p.outfit?`<div class="wli-row"><div class="wli-row-lbl">Outfit</div><div class="wli-row-val">${p.outfit}</div></div>`:''}
+    ${p.makeup?`<div class="wli-row"><div class="wli-row-lbl">Makeup</div><div class="wli-row-val">${p.makeup}</div></div>`:''}
+    ${p.hair?`<div class="wli-row"><div class="wli-row-lbl">Hair</div><div class="wli-row-val">${p.hair}</div></div>`:''}
+    ${p.hair_video?`<a class="wli-link" href="${p.hair_video}" target="_blank">▶ Hair tutorial</a>`:''}`;
+}
+
+function toggleDay(id) {
+  const body = document.getElementById(id);
+  const idx = id.split('-')[1];
+  const chev = document.getElementById('chev-day-' + idx);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  chev.classList.toggle('open', !isOpen);
+}
+
+function openWeekModal() {
+  document.getElementById('no-wardrobe-warn').style.display = wardrobe.length ? 'none' : 'block';
+  openM('week-modal');
+}
+
+async function generateWeek() {
+  if (!WORKER) { alert('Please connect your backend first'); return; }
+  if (!wardrobe.length) { alert('Add wardrobe items first!'); return; }
+  closeM('week-modal');
+
+  const genHtml = `<div class="gen-overlay"><div class="dots"><span></span><span></span><span></span></div><div style="margin-top:12px">AI is planning your week from your wardrobe…</div></div>`;
+  document.getElementById('week-grid').innerHTML = genHtml;
+  document.getElementById('week-list').innerHTML = `<div class="gen-list"><div class="dots"><span></span><span></span><span></span></div><div style="margin-top:12px">Generating your week…</div></div>`;
+
+  const dates = getWeekDates();
+  const wText = wardrobe.map(w => `[${w.category}] ${w.name} (${w.color}) — ${w.description} Tags: ${w.style_tags}`).join('\n');
+  const iText = inspirations.length ? '\nMy saved inspiration:\n' + inspirations.slice(0,6).map(i=>`[${i.type}] ${i.title} ${i.tags}`).join('\n') : '';
+  const occasions = document.getElementById('occasions').value.trim();
+  const weather = document.getElementById('weather-note').value.trim();
+
+  const prompt = `You are my personal style assistant. Plan my outfits for the week using ONLY items from my wardrobe. Do not suggest anything I don't own.
+
+My wardrobe:
+${wText}
+${iText}
+
+Schedule: ${occasions || 'Regular work week'}
+Notes: ${weather || 'Perth winter, cool and dry'}
+About me: Perth Australia, winter, acne-prone, hair beginner
+
+Return ONLY JSON, no other text:
+{"days":[{"date":"YYYY-MM-DD","scene":"occasion","outfit":"specific wardrobe items","makeup":"makeup look with key terms","hair":"hairstyle name and brief description","hair_video":"real YouTube beginner tutorial URL"}]}
+
+Dates: ${dates[0].toISOString().slice(0,10)} to ${dates[6].toISOString().slice(0,10)}, 7 days.`;
+
+  try {
+    const data = await api('/api/week', { method:'POST', body: JSON.stringify({prompt}) });
+    const text = data.content?.find(c=>c.type==='text')?.text || '';
+    const m = text.match(/\{[\s\S]*\}/);
+    if (!m) throw new Error('Could not parse response');
+    const parsed = JSON.parse(m[0]);
+    parsed.days.forEach(d => { weekPlan[d.date] = d; });
+    await api('/api/week-plan', { method:'PUT', body: JSON.stringify(weekPlan) });
+    renderWeek();
+  } catch(e) {
+    const errHtml = `<div style="grid-column:1/-1;padding:32px;text-align:center;color:var(--rose)">Generation failed: ${e.message}</div>`;
+    document.getElementById('week-grid').innerHTML = errHtml;
+    document.getElementById('week-list').innerHTML = errHtml;
+  }
+}
+
+async function clearWeek() {
+  if (!confirm("Clear this week's plan?")) return;
+  weekPlan = {};
+  if (WORKER) await api('/api/week-plan', { method:'PUT', body: JSON.stringify({}) });
+  renderWeek();
+}
+
+// ── WARDROBE ────────────────────────────────────────────
+function filterWardrobe(cat) {
+  wardrobeFilter = cat;
+  document.querySelectorAll('#page-wardrobe .chip').forEach((c,i)=>c.classList.toggle('active',['all','Tops','Bottoms','Outerwear','Shoes','Accessories'][i]===cat));
+  renderWardrobe();
+}
+
+function renderWardrobe() {
+  const list = wardrobeFilter==='all' ? wardrobe : wardrobe.filter(w=>w.category===wardrobeFilter);
+  const grid = document.getElementById('wardrobe-grid');
+  if (!list.length) { grid.innerHTML=`<div class="grid-empty">No items yet — tap "+ Add" to build your wardrobe</div>`; return; }
+  const em = {Tops:'👕',Bottoms:'👖',Outerwear:'🧥',Shoes:'👠',Accessories:'👜'};
+  grid.innerHTML = list.map(item => `
+    <div class="item-card">
+      <div class="item-thumb-ph">${item.image_url ? `<img src="${item.image_url}" alt="${item.name}"/>` : (em[item.category]||'👗')}</div>
+      <div class="item-info">
+        <div class="item-cat">${item.category}</div>
+        <div class="item-name">${item.name}</div>
+        ${item.color?`<div class="item-desc">${item.color}${item.description?' · '+item.description:''}</div>`:''}
+        ${item.style_tags?`<div class="item-tags">${item.style_tags.split(',').filter(Boolean).map(t=>`<span class="item-tag">${t.trim()}</span>`).join('')}</div>`:''}
+      </div>
+      <button class="item-del" onclick="deleteItem('${item.id}')">×</button>
+    </div>`).join('');
+  updateWardrobeCount();
+}
+
+function updateWardrobeCount() { document.getElementById('wardrobe-count').textContent = wardrobe.length; }
+
+function openItemModal() {
+  itemTags=[]; itemThumb='';
+  ['item-name','item-color','item-desc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('item-thumb-area').innerHTML=`<input type="file" accept="image/*" onchange="handleItemThumb(event)"/><div class="thumb-upload-txt">Tap to upload<br><small style="opacity:.6">Portrait crop recommended</small></div>`;
+  renderItemTags(); openM('item-modal');
+}
+
+function handleItemThumb(e) {
+  const file=e.target.files[0]; if(!file) return;
+  if(WORKER){ const fd=new FormData(); fd.append('file',file); fetch(WORKER+'/api/upload',{method:'POST',body:fd}).then(r=>r.json()).then(d=>{itemThumb=d.url;document.getElementById('item-thumb-area').innerHTML=`<img class="thumb-preview" src="${itemThumb}"/><input type="file" accept="image/*" onchange="handleItemThumb(event)" style="position:absolute;inset:0;opacity:0;cursor:pointer"/>`;});}
+  else{ const r=new FileReader(); r.onload=ev=>{itemThumb=ev.target.result;document.getElementById('item-thumb-area').innerHTML=`<img class="thumb-preview" src="${itemThumb}"/><input type="file" accept="image/*" onchange="handleItemThumb(event)" style="position:absolute;inset:0;opacity:0;cursor:pointer"/>`;};r.readAsDataURL(file);}
+}
+
+function addItemTag(e){if(e.key!=='Enter')return;e.preventDefault();const v=e.target.value.trim();if(v&&!itemTags.includes(v)){itemTags.push(v);renderItemTags();}e.target.value='';}
+function removeItemTag(t){itemTags=itemTags.filter(x=>x!==t);renderItemTags();}
+function renderItemTags(){document.getElementById('item-tag-wrap').innerHTML=itemTags.map(t=>`<span class="tag-pill">${t}<button onclick="removeItemTag('${t}')">×</button></span>`).join('')+`<input class="tag-text-input" id="item-tag-input" placeholder="casual, workwear…" onkeydown="addItemTag(event)"/>`;}
+
+async function saveItem() {
+  const name=document.getElementById('item-name').value.trim();
+  if(!name){alert('Please enter a name');return;}
+  const item={category:document.getElementById('item-cat').value,name,color:document.getElementById('item-color').value.trim(),description:document.getElementById('item-desc').value.trim(),style_tags:itemTags.join(','),image_url:itemThumb};
+  if(WORKER){const res=await api('/api/wardrobe',{method:'POST',body:JSON.stringify(item)});item.id=res.id;item.created_at=Date.now();wardrobe.unshift(item);}
+  else{item.id=Date.now().toString();item.created_at=Date.now();wardrobe.unshift(item);}
+  renderWardrobe();closeM('item-modal');
+}
+
+async function deleteItem(id) {
+  if(!confirm('Remove this item?'))return;
+  wardrobe=wardrobe.filter(w=>w.id!==id);
+  if(WORKER)await api('/api/wardrobe/'+id,{method:'DELETE'});
+  renderWardrobe();
+}
+
+// ── INSPO ────────────────────────────────────────────────
+function filterInspo(type) {
+  inspoFilter=type;
+  document.querySelectorAll('#page-inspo .chip').forEach((c,i)=>c.classList.toggle('active',['all','makeup','hair','outfit'][i]===type));
+  renderInspo();
+}
+
+function renderInspo() {
+  const list=inspoFilter==='all'?inspirations:inspirations.filter(i=>i.type===inspoFilter);
+  const grid=document.getElementById('inspo-grid');
+  if(!list.length){grid.innerHTML=`<div class="grid-empty">No saves yet — tap + to add your first inspiration</div>`;return;}
+  const tL={makeup:'💄 Makeup',hair:'💇 Hair',outfit:'👗 Outfit'};
+  const tC={makeup:'type-makeup',hair:'type-hair',outfit:'type-outfit'};
+  grid.innerHTML=list.map(item=>`
+    <div class="inspo-card">
+      <div class="inspo-thumb-ph">${item.image_url?`<img src="${item.image_url}" alt="${item.title}"/>`:(item.type==='makeup'?'💄':item.type==='hair'?'💇':'👗')}</div>
+      <div class="inspo-info">
+        <div class="inspo-type ${tC[item.type]||''}">${tL[item.type]||item.type}</div>
+        <div class="inspo-title">${item.title}</div>
+        ${item.note?`<div class="inspo-note">${item.note}</div>`:''}
+        ${item.url?`<a class="inspo-link" href="${item.url}" target="_blank">▶ View tutorial</a>`:''}
+      </div>
+      <button class="inspo-del" onclick="deleteInspo('${item.id}')">×</button>
+    </div>`).join('');
+}
+
+function openInspoModal(){inspoTags=[];inspoThumb='';['inspo-title','inspo-url','inspo-note'].forEach(id=>document.getElementById(id).value='');document.getElementById('inspo-thumb-area').innerHTML=`<input type="file" accept="image/*" onchange="handleInspoThumb(event)"/><div class="thumb-upload-txt">Tap to upload</div>`;renderInspoTags();openM('inspo-modal');}
+function handleInspoThumb(e){const file=e.target.files[0];if(!file)return;if(WORKER){const fd=new FormData();fd.append('file',file);fetch(WORKER+'/api/upload',{method:'POST',body:fd}).then(r=>r.json()).then(d=>{inspoThumb=d.url;document.getElementById('inspo-thumb-area').innerHTML=`<img class="thumb-preview" src="${inspoThumb}"/><input type="file" accept="image/*" onchange="handleInspoThumb(event)" style="position:absolute;inset:0;opacity:0;cursor:pointer"/>`;});}else{const r=new FileReader();r.onload=ev=>{inspoThumb=ev.target.result;document.getElementById('inspo-thumb-area').innerHTML=`<img class="thumb-preview" src="${inspoThumb}"/><input type="file" accept="image/*" onchange="handleInspoThumb(event)" style="position:absolute;inset:0;opacity:0;cursor:pointer"/>`;};r.readAsDataURL(file);}}
+function addInspoTag(e){if(e.key!=='Enter')return;e.preventDefault();const v=e.target.value.trim();if(v&&!inspoTags.includes(v)){inspoTags.push(v);renderInspoTags();}e.target.value='';}
+function removeInspoTag(t){inspoTags=inspoTags.filter(x=>x!==t);renderInspoTags();}
+function renderInspoTags(){document.getElementById('inspo-tag-wrap').innerHTML=inspoTags.map(t=>`<span class="tag-pill">${t}<button onclick="removeInspoTag('${t}')">×</button></span>`).join('')+`<input class="tag-text-input" id="inspo-tag-input" placeholder="everyday, date night…" onkeydown="addInspoTag(event)"/>`;}
+
+async function saveInspo(){
+  const title=document.getElementById('inspo-title').value.trim();if(!title){alert('Please enter a title');return;}
+  const item={type:document.getElementById('inspo-type').value,title,url:document.getElementById('inspo-url').value.trim(),note:document.getElementById('inspo-note').value.trim(),tags:inspoTags.join(','),image_url:inspoThumb};
+  if(WORKER){const res=await api('/api/inspo',{method:'POST',body:JSON.stringify(item)});item.id=res.id;item.created_at=Date.now();inspirations.unshift(item);}
+  else{item.id=Date.now().toString();item.created_at=Date.now();inspirations.unshift(item);}
+  renderInspo();closeM('inspo-modal');
+}
+
+async function deleteInspo(id){if(!confirm('Remove this?'))return;inspirations=inspirations.filter(i=>i.id!==id);if(WORKER)await api('/api/inspo/'+id,{method:'DELETE'});renderInspo();}
+
+// ── SKINCARE ─────────────────────────────────────────────
+function setSkin(m){skinMode=m;document.querySelectorAll('.toggle-pill')[0].querySelectorAll('button').forEach((b,i)=>b.classList.toggle('active',['clear','acne'][i]===m));renderSkincare();}
+function setSeason(m){seasonMode=m;document.querySelectorAll('.toggle-pill')[1].querySelectorAll('button').forEach((b,i)=>b.classList.toggle('active',['winter','summer'][i]===m));renderSkincare();}
+
+function renderSkincare(){
+  document.querySelectorAll('.acne-only').forEach(el=>el.classList.toggle('hidden',skinMode!=='acne'));
+  const sn=document.getElementById('sc-skin');
+  sn.className='notice '+(skinMode==='clear'?'notice-clear':'notice-acne');
+  sn.innerHTML=skinMode==='clear'
+    ?'<span>🌸</span><div><strong>Clear skin mode:</strong> Focus on hydration and brightening. Azelaic acid and DUO+M are resting.</div>'
+    :'<span>🔴</span><div><strong>Breaking out mode:</strong> Azelaic acid and DUO+M are active. Skip exfoliation this week.</div>';
+  const ssn=document.getElementById('sc-season');
+  const wt=document.getElementById('wtag');
+  if(seasonMode==='winter'){
+    ssn.innerHTML='<span>🌿</span><div><strong>Perth Winter:</strong> Cool and dry — prioritise moisture. Layer the Skinpower Cream generously.</div>';
+    if(wt)wt.style.display='';
+    document.getElementById('pm4p').textContent='SK-II Skinpower Cream';
+    document.getElementById('pm4nt').textContent='Rich overnight repair. Apply generously in winter.';
+    document.getElementById('am5p').textContent='La Roche-Posay Toleriane Fluid';
+    document.getElementById('am5nt').textContent='Lightweight hydration to lock in serum.';
+  }else{
+    ssn.innerHTML='<span>☀️</span><div><strong>Perth Summer:</strong> High UV — sunscreen is critical. Swap Skinpower Cream for Airy Milky Lotion if skin gets oily.</div>';
+    if(wt)wt.style.display='none';
+    document.getElementById('pm4p').textContent='SK-II Skinpower Cream / Airy Milky Lotion';
+    document.getElementById('pm4nt').textContent='Swap for Airy Milky Lotion if too heavy in summer.';
+    document.getElementById('am5p').textContent='La Roche-Posay Toleriane Fluid';
+    document.getElementById('am5nt').textContent='Keeps shine in check on warmer days.';
+  }
+  ['am-list','pm-list'].forEach(id=>{
+    [...document.getElementById(id).querySelectorAll('.sc-step:not(.hidden)')].forEach((s,i)=>{const n=s.querySelector('.sc-num');if(n)n.textContent=i+1;});
+  });
+}
+
+function toggleCollapse(id){
+  const body=document.getElementById('body-'+id);
+  const arrow=document.getElementById('arrow-'+id);
+  const open=body.classList.contains('open');
+  body.classList.toggle('open',!open);
+  arrow.classList.toggle('open',!open);
+}
+
+// ── CHAT ─────────────────────────────────────────────────
+function autoH(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,110)+'px';}
+function chatKey(e){if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendChat();}}
+function sendQ(t){go('chat');document.getElementById('chat-input').value=t;sendChat();}
+
+async function sendChat(){
+  const input=document.getElementById('chat-input');
+  const text=input.value.trim(); if(!text)return;
+  if(!WORKER){alert('Please connect your backend first');return;}
+  input.value=''; autoH(input);
+  appendMsg('user',text);
+  chatHistory.push({role:'user',content:text});
+  document.getElementById('send-btn').disabled=true;
+  const tid=appendMsg('ai','…');
+  const wCtx=wardrobe.length?`My wardrobe:\n${wardrobe.map(w=>`[${w.category}] ${w.name} (${w.color}) ${w.description}`).join('\n')}\n\n`:'';
+  const iCtx=inspirations.length?`My saved inspiration:\n${inspirations.slice(0,6).map(i=>`[${i.type}] ${i.title}`).join('\n')}\n\n`:'';
+  const system=`You are my personal style assistant. ${wCtx}${iCtx}About me: Perth Australia, winter, acne-prone skin, complete hair beginner.
+Rules: 1) Reply in English only 2) Only recommend wardrobe items I actually own 3) For hairstyles include a real YouTube beginner tutorial link 4) Explain makeup/hair terms clearly 5) Warm friendly tone`;
+  try{
+    const data=await api('/api/chat',{method:'POST',body:JSON.stringify({system,messages:chatHistory})});
+    const reply=data.content?.find(c=>c.type==='text')?.text||'Sorry, something went wrong. Please try again.';
+    updateMsg(tid,reply);chatHistory.push({role:'assistant',content:reply});
+  }catch(e){updateMsg(tid,'Connection failed: '+e.message);}
+  document.getElementById('send-btn').disabled=false;
+}
+
+function appendMsg(role,text){
+  const id='m'+(++msgN);const msgs=document.getElementById('chat-msgs');
+  const div=document.createElement('div');div.className='msg msg-'+role;div.id=id;
+  div.innerHTML=`<div class="msg-av">${role==='ai'?'✦':'You'}</div><div class="msg-bubble">${fmt(text)}</div>`;
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;return id;
+}
+function updateMsg(id,text){const el=document.getElementById(id);if(el)el.querySelector('.msg-bubble').innerHTML=fmt(text);document.getElementById('chat-msgs').scrollTop=99999;}
+function fmt(t){return t.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/(https?:\/\/[^\s<]+)/g,'<a href="$1" target="_blank" style="color:var(--accent)">$1</a>').replace(/\n/g,'<br>');}
+
+function openM(id){document.getElementById(id).classList.add('open');}
+function closeM(id){document.getElementById(id).classList.remove('open');}
+document.querySelectorAll('.overlay').forEach(m=>m.addEventListener('click',e=>{if(e.target===m)m.classList.remove('open');}));
+
+boot();
+</script>
+</body>
+</html>
